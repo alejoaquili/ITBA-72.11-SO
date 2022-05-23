@@ -13,7 +13,7 @@ Si al intentar ejecutar docker, por ejemplo "docker ps" se obtiene este error
 ```
 Got permission denied while trying to connect to the docker daemon socket
 ```
-Se deben seguir los pasos de el siguiente link: https://docs.docker.com/install/linux/linux-postinstall/
+Se deben seguir los pasos de el siguiente [enlace](https://docs.docker.com/install/linux/linux-postinstall/).
 ##### TL;DR
 Ejecutar:
 ```
@@ -23,11 +23,12 @@ Ejecutar:
 Reiniciar sesión para que los cambios tengan efecto
 
 #### Ejemplo para macOS
-< Proximamente >
-
+Pueden ingresar en este [enlace](https://docs.docker.com/desktop/mac/install/) y descargar el archivo `DMG` eligiendo versión para dispositivos con Chip Intel o con Chip Apple según corresponda. O bien se puede instalar a través del [Homebrew](https://brew.sh/): 
+```
+  brew install docker
+```
 #### Ejemplo para Windows con WSL
-< Proximamente >
-
+Pueden seguir lass instrucciones en este [enlace](https://docs.docker.com/desktop/windows/wsl/)
 
 ### PC LABORATORIOS DEL ITBA
 Ya está instalado, pero es necesario seguir los siguientes pasos para poder ejecutar docker
@@ -47,17 +48,21 @@ root@d1:~#
 ```
   docker pull agodio/itba-so:1.0
 ```
+Y pueden revisar que la imagen aparezca utilizando:
 
+```
+  docker images
+```
 ## Ejecutar el contenedor
 
 ```
-  docker run -v "${PWD}:/root" --security-opt seccomp:unconfined -ti agodio/itba-so:1.0 
+  docker run -v "${PWD}:/root" --privileged -ti agodio/itba-so:1.0 
 ```
 Esto debería mostrar un prompt como el siguiente:
 ```
 root@c3285f863835:/#
 ```
-El flag `--security-opt seccomp:unconfined` quita la restricción a syscalls utilizadas por `gdb`, `strace`, `ltrace`, `PVS-studio`, etc
+El flag `--privileged` quita la restricción a syscalls utilizadas por `gdb`, `strace`, `ltrace`, `PVS-studio`, etc. En versiones anteriores de docker esto lo lograbamos con el fla `--security-opt seccomp:unconfined `.
 El flag `-v "${PWD}:/root"` hace un `bind-mount` de la carpeta actual ($PWD) del host en la carpeta /root del guest, esto permite compartir archivos entre el host y el guest.
 **¡CUIDADO!** Los archivos **NO SE COPIAN**, sino que se comparten, es decir que cualquier cambio tanto desde el host como desde el guest se podrá ver en el host y el guest.
 
@@ -87,7 +92,7 @@ Crear un programa en C en el HOST, iniciar docker haciendo el bind-mount corresp
     mkdir test-docker
     cd test-docker
     echo '#include <stdio.h>\nint main(){ printf("Challenge completed\\n"); return 0;}' > main.c
-    docker run -v "${PWD}:/root" --security-opt seccomp:unconfined -ti agodio/itba-so:1.0
+    docker run -v "${PWD}:/root" --privileged -ti agodio/itba-so:1.0
     cd /root
     gcc -Wall main.c
     ./a.out
@@ -100,7 +105,7 @@ Crear un programa en C en el HOST, iniciar docker haciendo el bind-mount corresp
     sudo /usr/bin/start_docker.sh
     sudo /usr/bin/enter_docker.sh
     cd /shared
-    docker run -v "${PWD}:/root" --security-opt seccomp:unconfined -ti agodio/itba-so:1.0
+    docker run -v "${PWD}:/root" --privileged -ti agodio/itba-so:1.0
     cd root
     gcc -Wall main.c
     ./a.out
@@ -116,7 +121,7 @@ Crear un programa en C en el HOST, iniciar docker haciendo el bind-mount corresp
 ```
     alias ls='ls --color'
 ```
-Los comandos para los colores (y cualquier otra configuración que quieran agregar) se puede agregar en un archivo `.bashrc` en la carpeta que van a montar en el docker, de esta manera cuando inicie bash en el docker va a levatar esta configuración automáticamente)
+Los comandos para los colores (y cualquier otra configuración que quieran agregar) se puede agregar en un archivo `.bashrc` en la carpeta que van a montar en el docker, de esta manera cuando inicie bash en el docker va a levatar esta configuración automáticamente. Pueden por ejemplo incluir también el `cd /root` si así lo desean.
 
 ### Abrir otra terminal en un contenedor que ya esté corriendo:
 Obtener el id del contenedor que esté corriendo con el siguiente comando (Este comando NO debe ejecutarse dentro del contenedor, sino en el host)
@@ -133,4 +138,7 @@ El id del contenedor es `a3b852a22b2c`, para iniciar una terminal en el mismo co
     docker exec -ti a3b852a22b2c bash
 ```
 #### Armar alias "dexec"
-< Proximamente >
+Pueden armar un alias llamado `dexec` o como sea de su preferencia para:
+```
+  docker exec -ti $(docker ps | tail -n1 | cut -d ' ' -f 1) bash
+```
