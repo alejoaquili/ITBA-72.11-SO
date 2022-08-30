@@ -46,7 +46,7 @@ close(4)                                = 0
 execve("/bin/ls", ["ls", "--color=auto"], [/* 10 vars */]) = 0
 ```
 
-Finalmente en **out.\<PID de wc\>** esperamos ver una salida similar a la de **ls**, solo que en este caso wc se conecta al orto extremo del pipe
+Finalmente en **out.\<PID de wc\>** esperamos ver una salida similar a la de **ls**, solo que en este caso **wc** se conecta al otro extremo del pipe
 
 El resto de los ejemplos se puede reproducir de la misma manera, enfocándose siempre en las syscalls relevantes.
 
