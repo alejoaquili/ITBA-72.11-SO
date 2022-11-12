@@ -7,8 +7,7 @@ void my_sem_init(sem *s, int value) {
 extern int _xchg(int *lock, int value);
 
 void acquire(int *lock) {
-  while (_xchg(lock, 1) != 0)
-    ;
+  while (_xchg(lock, 1) != 0);
 }
 
 void release(int *lock) {
@@ -67,8 +66,7 @@ void my_sem_post(sem *s) {
 #ifdef IMP_XCHG_DEFENSA
 void my_sem_wait(sem *s) {
   int aux = 0;
-  while ((aux = _xchg(&(s->value), aux)) <= 0)
-    ;
+  while ((aux = _xchg(&(s->value), aux)) <= 0);
   _xchg(&(s->value), aux - 1);
 }
 
@@ -80,8 +78,7 @@ void my_sem_post(sem *s) {
 #ifdef IMP_RACY
 // posible solución 100% userland: contiene condiciones de carrera
 void my_sem_wait(sem *s) {
-  while (s->value <= 0)
-    ;
+  while (s->value <= 0);
   s->value--;
 }
 

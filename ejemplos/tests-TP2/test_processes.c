@@ -48,26 +48,26 @@ int64_t test_processes(uint64_t argc, char *argv[]) {
         action = GetUniform(100) % 2;
 
         switch (action) {
-        case 0:
-          if (p_rqs[rq].state == RUNNING || p_rqs[rq].state == BLOCKED) {
-            if (my_kill(p_rqs[rq].pid) == -1) {
-              printf("test_processes: ERROR killing process\n");
-              return -1;
+          case 0:
+            if (p_rqs[rq].state == RUNNING || p_rqs[rq].state == BLOCKED) {
+              if (my_kill(p_rqs[rq].pid) == -1) {
+                printf("test_processes: ERROR killing process\n");
+                return -1;
+              }
+              p_rqs[rq].state = KILLED;
+              alive--;
             }
-            p_rqs[rq].state = KILLED;
-            alive--;
-          }
-          break;
+            break;
 
-        case 1:
-          if (p_rqs[rq].state == RUNNING) {
-            if (my_block(p_rqs[rq].pid) == -1) {
-              printf("test_processes: ERROR blocking process\n");
-              return -1;
+          case 1:
+            if (p_rqs[rq].state == RUNNING) {
+              if (my_block(p_rqs[rq].pid) == -1) {
+                printf("test_processes: ERROR blocking process\n");
+                return -1;
+              }
+              p_rqs[rq].state = BLOCKED;
             }
-            p_rqs[rq].state = BLOCKED;
-          }
-          break;
+            break;
         }
       }
 
