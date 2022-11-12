@@ -14,11 +14,11 @@ make MM=BUDDY; ./a.out
 
 #include <stdio.h>
 
-int main(){
+int main() {
 
 #ifdef MM_BUDDY
   printf("Usando buddy\n");
-#else  
+#else
   printf("Usando free list\n");
 #endif
 

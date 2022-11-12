@@ -1,6 +1,6 @@
-typedef struct Sem{
+typedef struct Sem {
   int value;
-}sem;
+} sem;
 
 void my_sem_init(sem *s, int value);
 void my_sem_wait(sem *s);

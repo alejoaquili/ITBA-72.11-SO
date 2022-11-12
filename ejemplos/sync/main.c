@@ -9,7 +9,7 @@ make IMP=XCHG_RACY
 make IMP=XCHG_DEFENSA
 make IMP=RACY
 
-./a.out 
+./a.out
 
 Output indicando un problema:
 s.value: 50608 (1)
@@ -20,11 +20,11 @@ s.value: 1 (1)
 global: 300000 (300000)
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
 #include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 #include "sem.h"
 
 int global = 0;
@@ -32,10 +32,10 @@ int global = 0;
 #define N_THREADS 10
 #define INCS 30000
 
-void* inc(void* p){
+void *inc(void *p) {
   sem *s = (sem *)p;
   int i;
-  for (i = 0; i < INCS; i++){
+  for (i = 0; i < INCS; i++) {
     my_sem_wait(s);
     global++;
     my_sem_post(s);
@@ -45,7 +45,7 @@ void* inc(void* p){
   return NULL;
 }
 
-int main(void){
+int main(void) {
   pthread_t id[N_THREADS];
   sem s;
 
@@ -62,30 +62,6 @@ int main(void){
 
   return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
 
@@ -351,4 +327,3 @@ int main_pipe(void){
   return 0;
 }
 */
-
