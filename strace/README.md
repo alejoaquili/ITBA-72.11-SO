@@ -9,7 +9,7 @@ El objetivo de este ejercicio es entender cómo la shell resuelve cada uno de es
 ## Requerimientos
 * Necesitamos tener 2 terminales abiertas en el mismo contenedor docker
 * Con **ps aux** podemos descubrir el PID de bash.
-* En la segunda terminal ejecutamos **strace -ff -o out -p \<bash pid\>**. Esto guardá las syscalls de bash y de todos los procesos hijos en archivos separados (**-ff -o out**).
+* En la segunda terminal ejecutamos **strace -ff -o out -p \<bash pid\>**. Esto guarda las syscalls de bash y de todos los procesos hijos en archivos separados (**-ff -o out**).
 
 En este punto bash está esperando por un comando y strace muestra algo como esto:
 

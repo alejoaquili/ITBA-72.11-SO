@@ -9,14 +9,14 @@ ps j
 ps j
  */
 
-#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 int main() {
   pid_t child_pid = fork();
 
-  if (child_pid == -1){
+  if (child_pid == -1) {
     perror("fork");
     return 1;
   }
@@ -31,5 +31,5 @@ int main() {
 
   printf("First sleep done\n");
 
-  return 0; 
+  return 0;
 }

@@ -1,6 +1,6 @@
 # Guía de uso de Docker para 72.11 - Sistemas Operativos
 
-La siguiente guia cubre los pasos necesarios para tener un entorno de trabajo docker tanto en una PC personal como en una PC de los laboratorios de ITBA.
+La siguiente guía cubre los pasos necesarios para tener un entorno de trabajo docker tanto en una PC personal como en una PC de los laboratorios de ITBA.
 
 ## Instalación de Docker
 ### PC PERSONAL
@@ -28,11 +28,11 @@ Pueden ingresar en este [enlace](https://docs.docker.com/desktop/mac/install/) y
   brew install docker
 ```
 #### Ejemplo para Windows con WSL
-Pueden seguir lass instrucciones en este [enlace](https://docs.docker.com/desktop/windows/wsl/)
+Pueden seguir las instrucciones en este [enlace](https://docs.docker.com/desktop/windows/wsl/)
 
 ### PC LABORATORIOS DEL ITBA
 Ya está instalado, pero es necesario seguir los siguientes pasos para poder ejecutar docker
-* Iniciar sesión en archlinux (en los laboratorios bootea por red, sino desde pampero via ssh a alguna pc)
+* Iniciar sesión en archlinux (en los laboratorios bootea por red, sino desde pampero vía ssh a alguna pc)
 * Ejecutar los siguientes comandos:
 ```
   sudo /usr/bin/start_docker.sh
@@ -62,13 +62,13 @@ Esto debería mostrar un prompt como el siguiente:
 ```
 root@c3285f863835:/#
 ```
-El flag `--privileged` quita la restricción a syscalls utilizadas por `gdb`, `strace`, `ltrace`, `PVS-studio`, etc. En versiones anteriores de docker esto lo lograbamos con el fla `--security-opt seccomp:unconfined `.
+El flag `--privileged` quita la restricción a syscalls utilizadas por `gdb`, `strace`, `ltrace`, `PVS-studio`, etc. En versiones anteriores de docker esto lo lográbamos con el flag `--security-opt seccomp:unconfined `.
 El flag `-v "${PWD}:/root"` hace un `bind-mount` de la carpeta actual ($PWD) del host en la carpeta /root del guest, esto permite compartir archivos entre el host y el guest.
 **¡CUIDADO!** Los archivos **NO SE COPIAN**, sino que se comparten, es decir que cualquier cambio tanto desde el host como desde el guest se podrá ver en el host y el guest.
 
 ### PC PERSONAL
 
-Una alternativa práctica y segura es cambiar el directorio de trabajo del host al proyecto en el cual se esté trabajando, por ejempo "cd /home/TP1", y luego ejecutar el contenedor, de esta manera en la carpeta /root del contenedor se verán los archivos del TP1
+Una alternativa práctica y segura es cambiar el directorio de trabajo del host al proyecto en el cual se esté trabajando, por ejemplo "cd /home/TP1", y luego ejecutar el contenedor, de esta manera en la carpeta /root del contenedor se verán los archivos del TP1
 
 ### PC LABORATORIOS DEL ITBA
 
@@ -121,7 +121,7 @@ Crear un programa en C en el HOST, iniciar docker haciendo el bind-mount corresp
 ```
     alias ls='ls --color'
 ```
-Los comandos para los colores (y cualquier otra configuración que quieran agregar) se puede agregar en un archivo `.bashrc` en la carpeta que van a montar en el docker, de esta manera cuando inicie bash en el docker va a levatar esta configuración automáticamente. Pueden por ejemplo incluir también el `cd /root` si así lo desean.
+Los comandos para los colores (y cualquier otra configuración que quieran agregar) se puede agregar en un archivo `.bashrc` en la carpeta que van a montar en el docker, de esta manera cuando inicie bash en el docker va a levantar esta configuración automáticamente. Pueden por ejemplo incluir también el `cd /root` si así lo desean.
 
 ### Abrir otra terminal en un contenedor que ya esté corriendo:
 Obtener el id del contenedor que esté corriendo con el siguiente comando (Este comando NO debe ejecutarse dentro del contenedor, sino en el host)

@@ -9,7 +9,7 @@ make IMP=XCHG_RACY
 make IMP=XCHG_DEFENSA
 make IMP=RACY
 
-./a.out 
+./a.out
 
 Output indicando un problema:
 s.value: 50608 (1)
@@ -20,11 +20,11 @@ s.value: 1 (1)
 global: 300000 (300000)
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
 #include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 #include "sem.h"
 
 int global = 0;
@@ -32,10 +32,10 @@ int global = 0;
 #define N_THREADS 10
 #define INCS 30000
 
-void* inc(void* p){
+void *inc(void *p) {
   sem *s = (sem *)p;
   int i;
-  for (i = 0; i < INCS; i++){
+  for (i = 0; i < INCS; i++) {
     my_sem_wait(s);
     global++;
     my_sem_post(s);
@@ -45,7 +45,7 @@ void* inc(void* p){
   return NULL;
 }
 
-int main(void){
+int main(void) {
   pthread_t id[N_THREADS];
   sem s;
 
@@ -63,30 +63,6 @@ int main(void){
   return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
 
 sem chop_stick[N_THREADS];
@@ -94,13 +70,13 @@ int philos[N_THREADS];
 sem lock_global;
 sem lock_print;
 
-void printTable(){
-  int i,last;
+void printTable() {
+  int i, last;
 
   my_sem_wait(&lock_print);
 
   last = philos[N_THREADS - 1];
-  for (i = 0; i<N_THREADS; i++){
+  for (i = 0; i < N_THREADS; i++) {
     printf("%d ", philos[i]);
     if (last && last == philos[i])
       printf("ERROR\n");
@@ -111,33 +87,33 @@ void printTable(){
   my_sem_post(&lock_print);
 }
 
-void* philo_defensa_propuesta(void* p){
-  int id = *(int *) p;
+void *philo_defensa_propuesta(void *p) {
+  int id = *(int *)p;
   time_t t;
 
-  srand((unsigned) time(&t));
+  srand((unsigned)time(&t));
 
-  while (1){
-    usleep(rand() % 20000); //think
+  while (1) {
+    usleep(rand() % 20000); // think
 
     my_sem_wait(&lock_global);
     my_sem_wait(&chop_stick[id]);
     my_sem_wait(&chop_stick[(id + 1) % N_THREADS]);
     my_sem_post(&lock_global);
 
-    //EAT
+    // EAT
     philos[id] = 1;
     usleep(rand() % 20000);
 
     printTable();
 
-    //THINK
+    // THINK
     philos[id] = 0;
 
-    //my_sem_wait(&lock_global);
+    // my_sem_wait(&lock_global);
     my_sem_post(&chop_stick[(id + 1) % N_THREADS]);
     my_sem_post(&chop_stick[id]);
-    //my_sem_post(&lock_global);
+    // my_sem_post(&lock_global);
   }
 
   pthread_exit(NULL);
@@ -147,73 +123,75 @@ void* philo_defensa_propuesta(void* p){
 #define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
 #define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
 
-void* philo_defensa(void* p){
-  int id = *(int *) p;
+void *philo_defensa(void *p) {
+  int id = *(int *)p;
   time_t t;
 
-  srand((unsigned) time(&t));
+  srand((unsigned)time(&t));
 
-  while (1){
-    usleep(rand() % 20000); //think
+  while (1) {
+    usleep(rand() % 20000); // think
 
-    my_sem_wait(&chop_stick[MIN(id,(id+1)%N_THREADS)]);
-    if(id == 2) usleep(rand() % 100000);
-    my_sem_wait(&chop_stick[MAX(id,(id+1)%N_THREADS)]);
-    //my_sem_wait(&chop_stick[id]);
-    //if(id == 2) usleep(rand() % 100000);
-    //my_sem_wait(&chop_stick[(id + 1) % N_THREADS]);
+    my_sem_wait(&chop_stick[MIN(id, (id + 1) % N_THREADS)]);
+    if (id == 2)
+      usleep(rand() % 100000);
+    my_sem_wait(&chop_stick[MAX(id, (id + 1) % N_THREADS)]);
+    // my_sem_wait(&chop_stick[id]);
+    // if(id == 2) usleep(rand() % 100000);
+    // my_sem_wait(&chop_stick[(id + 1) % N_THREADS]);
 
-    //EAT
+    // EAT
     philos[id] = 1;
     usleep(rand() % 20000);
 
     printTable();
 
-    //THINK
+    // THINK
     philos[id] = 0;
 
-    my_sem_post(&chop_stick[MAX(id,(id+1)%N_THREADS)]);
-    if(id == 2) usleep(rand() % 100000);
-    my_sem_post(&chop_stick[MIN(id,(id+1)%N_THREADS)]);
-   // my_sem_post(&chop_stick[(id + 1) % N_THREADS]);
-   // if(id == 2) usleep(rand() % 100000);
-   // my_sem_post(&chop_stick[id]);
+    my_sem_post(&chop_stick[MAX(id, (id + 1) % N_THREADS)]);
+    if (id == 2)
+      usleep(rand() % 100000);
+    my_sem_post(&chop_stick[MIN(id, (id + 1) % N_THREADS)]);
+    // my_sem_post(&chop_stick[(id + 1) % N_THREADS]);
+    // if(id == 2) usleep(rand() % 100000);
+    // my_sem_post(&chop_stick[id]);
   }
 
   pthread_exit(NULL);
   return NULL;
 }
 
-void* philo(void* p){
-  int id = *(int *) p;
+void *philo(void *p) {
+  int id = *(int *)p;
   time_t t;
 
-  srand((unsigned) time(&t));
+  srand((unsigned)time(&t));
 
-  while (1){
-    usleep(rand() % 20000); //think
+  while (1) {
+    usleep(rand() % 20000); // think
 
-    if (id % 2 == 0){
+    if (id % 2 == 0) {
       my_sem_wait(&chop_stick[id]);
       my_sem_wait(&chop_stick[(id + 1) % N_THREADS]);
-    }else{
+    } else {
       my_sem_wait(&chop_stick[(id + 1) % N_THREADS]);
       my_sem_wait(&chop_stick[id]);
     }
 
-    //EAT
+    // EAT
     philos[id] = 1;
     usleep(rand() % 20000);
 
     printTable();
 
-    //THINK
+    // THINK
     philos[id] = 0;
 
-    if (id % 2 != 0){
+    if (id % 2 != 0) {
       my_sem_post(&chop_stick[id]);
       my_sem_post(&chop_stick[(id + 1) % N_THREADS]);
-    }else{
+    } else {
       my_sem_post(&chop_stick[(id + 1) % N_THREADS]);
       my_sem_post(&chop_stick[id]);
     }
@@ -223,7 +201,7 @@ void* philo(void* p){
   return NULL;
 }
 
-int main(void){
+int main(void) {
   pthread_t id[N_THREADS];
   int ids[N_THREADS];
 
@@ -231,7 +209,7 @@ int main(void){
   my_sem_init(&lock_global, 1);
 
   int i;
-  for (i = 0; i < N_THREADS; i++){
+  for (i = 0; i < N_THREADS; i++) {
     my_sem_init(&chop_stick[i], 1);
     ids[i] = i;
     philos[i] = 0;
@@ -251,22 +229,22 @@ int main(void){
 typedef struct Pipe {
   int lock;
   char data[PIPESIZE];
-  unsigned int nread;     // number of bytes read
-  unsigned int nwrite;    // number of bytes written
+  unsigned int nread;  // number of bytes read
+  unsigned int nwrite; // number of bytes written
 } pipe_t;
 
-int pipeget(pipe_t *p){
+int pipeget(pipe_t *p) {
   acquire(&p->lock);
   int r = p->nwrite - p->nread;
   release(&p->lock);
   return r;
 }
 
-int pipewrite(pipe_t *p, char *addr, int n){
+int pipewrite(pipe_t *p, char *addr, int n) {
   int i;
 
-  for(i = 0; i < n; i++){
-    while (1){ //wait until there is space to write
+  for (i = 0; i < n; i++) {
+    while (1) { // wait until there is space to write
       acquire(&p->lock);
       if (p->nwrite < p->nread + PIPESIZE)
         break;
@@ -279,11 +257,11 @@ int pipewrite(pipe_t *p, char *addr, int n){
   return n;
 }
 
-int piperead(pipe_t *p, char *addr, int n){
+int piperead(pipe_t *p, char *addr, int n) {
   int i;
 
-  for(i = 0; i < n; i++){
-    while(1){ //wait until there is something to read
+  for (i = 0; i < n; i++) {
+    while (1) { // wait until there is something to read
       acquire(&p->lock);
       if (p->nread < p->nwrite)
         break;
@@ -298,16 +276,16 @@ int piperead(pipe_t *p, char *addr, int n){
 
 #define S "Hola Mundo"
 
-void* w(void* param){
+void *w(void *param) {
   pipe_t *p = (pipe_t *)param;
 
-  while(1){
+  while (1) {
     pipewrite(p, S, strlen(S));
     usleep(90000);
   }
 }
 
-void* r(void* param){
+void *r(void *param) {
   pipe_t *p = (pipe_t *)param;
   int len = strlen(S);
   char buf[len + 1];
@@ -315,14 +293,14 @@ void* r(void* param){
 
   buf[len] = 0;
 
-  while(1){
+  while (1) {
     piperead(p, buf, len);
     printf("%s %d\n", buf, ++count);
     usleep(100000);
   }
 }
 
-int main_pipe(void){
+int main_pipe(void) {
   pthread_t id[2];
 
   pipe_t p;
@@ -334,7 +312,7 @@ int main_pipe(void){
   pthread_create(&id[1], NULL, r, &p);
 
   int used;
-  while(1){
+  while (1) {
     used = pipeget(&p);
     printf("%d\t\t", used);
     for (used = used / 10; used > 0; used--)
@@ -350,5 +328,5 @@ int main_pipe(void){
 
   return 0;
 }
-*/
 
+*/
