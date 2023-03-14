@@ -141,16 +141,16 @@ El id del contenedor es `a3b852a22b2c`, para iniciar una terminal en el mismo co
 Pueden armar un aliases para trabajar con la imagen:
 
 ```
-alias dc="docker run -v ${PWD}:/root --privileged -ti --name SO agodio/itba-so:1.0"
+alias dcrun="docker run -v ${PWD}:/root --privileged -ti --name SO agodio/itba-so:1.0"
 alias dcexec="docker exec -ti SO bash"
 alias dcstart="docker start SO"
 alias dcstop="docker stop SO"
 alias dcrm="docker rm -f SO"
 ```
-* `dc` abre la terminal como es usual para utilizar la imagen provista.
+* `dcrun` abre la terminal como es usual para utilizar la imagen provista.
 
 * Realizar exit dentro del docker o `dcstop` desde el host tienen el mismo efecto.
 
 * `dcexec` en este punto falla porque no está corriendo, es necesario `dcstart` antes de utilizar `dcexec`.
 
-* `dcrm` es opuesto a `dc`.
+* `dcrm` es opuesto a `dcrun`.
