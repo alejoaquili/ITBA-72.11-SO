@@ -13,6 +13,14 @@ Para poder utilizar la versión gratuita deben agregar 2 comentarios en el encab
 
 Finalmente, pvs-studio requiere el comando de compilación para realizar el análisis. En este ejemplo el comando es make. También requiere permisos para ejecutar la syscall trace, la cual se habilita en docker con el flag `--privileged`.
 
+## Licencia
+
+Es necesario activar la licencia gratuita para poder utilizar PVS-studio ejecutando este comando
+
+```
+pvs-studio-analyzer credentials "PVS-Studio Free" "FREE-FREE-FREE-FREE"
+```
+
 ## Ejecución 
 ```
 	pvs-studio-analyzer trace -- make
