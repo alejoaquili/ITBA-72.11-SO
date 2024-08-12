@@ -46,7 +46,7 @@ root@d1:~#
 ## Descargar imagen
 
 ```
-  docker pull agodio/itba-so:1.0
+  docker pull agodio/itba-so-multi-platform:3.0
 ```
 Y pueden revisar que la imagen aparezca utilizando:
 
@@ -56,7 +56,7 @@ Y pueden revisar que la imagen aparezca utilizando:
 ## Ejecutar el contenedor
 
 ```
-  docker run -v "${PWD}:/root" --privileged -ti agodio/itba-so:1.0 
+  docker run -v "${PWD}:/root" --privileged -ti agodio/itba-so-multi-platform:3.0 
 ```
 Esto debería mostrar un prompt como el siguiente:
 ```
@@ -92,7 +92,7 @@ Crear un programa en C en el HOST, iniciar docker haciendo el bind-mount corresp
     mkdir test-docker
     cd test-docker
     echo '#include <stdio.h>\nint main(){ printf("Challenge completed\\n"); return 0;}' > main.c
-    docker run -v "${PWD}:/root" --privileged -ti agodio/itba-so:1.0
+    docker run -v "${PWD}:/root" --privileged -ti agodio/itba-so-multi-platform:3.0
     cd /root
     gcc -Wall main.c
     ./a.out
@@ -105,7 +105,7 @@ Crear un programa en C en el HOST, iniciar docker haciendo el bind-mount corresp
     sudo /usr/bin/start_docker.sh
     sudo /usr/bin/enter_docker.sh
     cd /shared
-    docker run -v "${PWD}:/root" --privileged -ti agodio/itba-so:1.0
+    docker run -v "${PWD}:/root" --privileged -ti agodio/itba-so-multi-platform:3.0
     cd root
     gcc -Wall main.c
     ./a.out
@@ -130,8 +130,8 @@ Obtener el id del contenedor que esté corriendo con el siguiente comando (Este 
 ```
 Obteniendo un output como el siguiente:
 ```
-    CONTAINER ID        IMAGE                COMMAND             CREATED             STATUS              PORTS               NAMES
-    a3b852a22b2c        agodio/itba-so:1.0   "bash"              17 seconds ago      Up 16 seconds                           goofy_hamilton
+    CONTAINER ID        IMAGE                               COMMAND             CREATED             STATUS              PORTS               NAMES
+    a3b852a22b2c        agodio/itba-so-multi-platform:3.0   "bash"              17 seconds ago      Up 16 seconds                           goofy_hamilton
 ```
 El id del contenedor es `a3b852a22b2c`, para iniciar una terminal en el mismo contenedor ejecutar el siguiente comando:
 ```
@@ -141,7 +141,7 @@ El id del contenedor es `a3b852a22b2c`, para iniciar una terminal en el mismo co
 Pueden armar un aliases para trabajar con la imagen:
 
 ```
-alias dcrun="docker run -v ${PWD}:/root --privileged -ti --name SO agodio/itba-so:1.0"
+alias dcrun="docker run -v ${PWD}:/root --privileged -ti --name SO agodio/itba-so-multi-platform:3.0"
 alias dcexec="docker exec -ti SO bash"
 alias dcstart="docker start SO"
 alias dcstop="docker stop SO"
