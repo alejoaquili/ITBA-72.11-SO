@@ -5,6 +5,7 @@ Repositorio para el curso 72.11 Sistemas Operativos del Instituto Tecnológico d
 
 * `/docker` --> Guía de uso de Docker
 * `/examples` --> Ejemplos de código
+* `/kernel-development` --> Contenido para la construcción del kernel
 * `/man` --> Guía de uso del manual
 * `/static-code-analysis` --> Guías de uso de herramientas de análisis estático de código
 * `/strace` --> Guía de uso de strace
