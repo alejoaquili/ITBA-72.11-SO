@@ -5,8 +5,11 @@ Esta carpeta engloba contenido de ayuda y soporte para el desarrollo del kernel 
 
 ## Requerimientos
 Se necesita tener un trabajo práctivo especial de la materia previa de *72.08 - Arquitectura de Computadoras*, el mismo se basa en el BareBones:
+
 - [https://github.com/alejoaquili/x64BareBones](https://github.com/alejoaquili/x64BareBones)
+
 El BareBones construido para ambas catedras, se basa en Pure64:
+
 - [https://github.com/ReturnInfinity/Pure64](https://github.com/ReturnInfinity/Pure64)
 
 ## Algunas recomendaciones para el desarrollo
