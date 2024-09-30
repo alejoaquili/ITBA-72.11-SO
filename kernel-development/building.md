@@ -184,11 +184,11 @@ Uno de los requerimientos de la regla image es el archivo packedKernel.bin el cu
 
 ```
 packedKernel.bin	| kernel.bin
-			        | # módulos extra (2 en este caso)
-			        | Tamaño en bytes del primer módulo extra
-			        | SampleCodeModule.bin
-			        | Tamaño en bytes del segundo módulo extra
-			        | SampleDataModule.bin
+			| # módulos extra (2 en este caso)
+			| Tamaño en bytes del primer módulo extra
+			| SampleCodeModule.bin
+			| Tamaño en bytes del segundo módulo extra
+			| SampleDataModule.bin
 ```
 
 ### x64BareBonesImage.img
@@ -198,11 +198,11 @@ La imagen final tiene esta pinta:
 x64BareBonesImage.img	| bmfs_mbr.sys
                         | pure64.sys
                         | packedKernel.bin	| kernel.bin
-						                    | # módulos extra
-                                            | Tamaño en bytes
-                                            | SampleCodeModule.bin
-                                            | Tamaño en bytes
-                                            | SampleDataModule.bin
+						| # módulos extra
+						| Tamaño en bytes
+						| SampleCodeModule.bin
+						| Tamaño en bytes
+						| SampleDataModule.bin
 ```
 
 EL bootloader se encargará de ubicar packedKernel.bin (por consiguiente kernel.bin) en la dirección 0x100000, sin embargo, SampleCodeModule.bin no quedará exactamente en la dirección 0x400000, ya que kernel.bin ocupa menos de 0x300000 bytes. La responsabilidad de acomodar SampleCodeModule.bin en la dirección 0x400000 (en el script de linkeo especificamos que iba a estar en esta dirección) es del kernel, en particular la función initializeKernelBinary.
@@ -227,27 +227,27 @@ La función loadModules toma como parámetros la variable endOfKernelBinary (dec
 
 ```
 | packedKernel.bin	| kernel.bin			| .text
-                                            | .rodata
-                                            | .data
-                                            | <- endOfKernelBinary
-                    | # módulos extra
-                    | Tamaño en bytes
-                    | SampleCodeModule.bin
-                    | Tamaño en bytes 				
-                    | SampleDataModule.bin
+							| .rodata
+							| .data
+							| <- endOfKernelBinary
+			| # módulos extra
+			| Tamaño en bytes
+			| SampleCodeModule.bin
+			| Tamaño en bytes 				
+			| SampleDataModule.bin
 ```
 
 Es importante destacar que la sección .bss no se almacena en el binario, ya que corresponde a variables no inicializadas, sin embargo, cada acceso del kernel a estas variables se realizará en las direcciones de memoria que sigan a .data, i.e donde actualmente se encuentra # módulos extra, Tamaño en bytes, etc.
 
 ```
 | packedKernel.bin	| kernel.bin			| .text
-                                            | .rodata
-                                            | .data
-                                            | <- endOfKernelBinary
-                    | # módulos extra
-                    | Tamaño en bytes
-                    | ... (Espacio libre)
-        0x400000 ->	| SampleCodeModule.bin
-			        | ... (Espacio libre)				
-        0x500000 ->	| SampleDataModule.bin
+							| .rodata
+							| .data
+							| <- endOfKernelBinary
+			| # módulos extra
+			| Tamaño en bytes
+			| ... (Espacio libre)
+	0x400000 ->	| SampleCodeModule.bin
+			| ... (Espacio libre)				
+	0x500000 ->	| SampleDataModule.bin
 ```
