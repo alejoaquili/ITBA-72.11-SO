@@ -10,7 +10,8 @@ int64_t global; // shared memory
 
 void slowInc(int64_t *p, int64_t inc) {
   uint64_t aux = *p;
-  my_yield(); // This makes the race condition highly probable
+  if (GetUniform(100) < 30)
+    my_yield(); // This makes the race condition highly probable
   aux += inc;
   *p = aux;
 }

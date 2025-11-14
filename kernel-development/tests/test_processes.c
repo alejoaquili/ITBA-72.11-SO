@@ -55,6 +55,7 @@ int64_t test_processes(uint64_t argc, char *argv[]) {
                 return -1;
               }
               p_rqs[rq].state = KILLED;
+              my_wait(p_rqs[rq].pid);
               alive--;
             }
             break;
